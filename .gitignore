@@ -148,3 +148,6 @@ requirements-dev.txt
 
 .env.sh
 test.py
+
+azureml.sh
+config.json
