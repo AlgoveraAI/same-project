@@ -8,6 +8,7 @@ from pathlib import Path
 from box import Box
 import pkg_resources
 import click
+import os
 
 
 def _click_type(name, schema):
@@ -71,6 +72,8 @@ def init():
         click.echo(f"No such file found: {nb_path}", err=True)
         exit(1)
     nb_dict = read_notebook(nb_path)
+    # get filename part of nb_path
+    nb_name = str(nb_path.name).replace(".ipynb", "")
     nb_name = click.prompt("Notebook name", default=nb_name, type=str)
 
     # Docker image data:
@@ -133,7 +136,7 @@ def init():
         },
         "notebook": {
             "name": nb_name,
-            "path": str(nb_path),
+            "path": str(nb_path.relative_to(os.getcwd())),
         },
         "run": {
             "name": f"{pl_name} run",

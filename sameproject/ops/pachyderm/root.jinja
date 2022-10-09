@@ -1,0 +1,33 @@
+{% autoescape off %}
+
+from run_info import run_info_fn
+{% for step in list_of_steps %}
+from {{ step.unique_name }} import {{ step.unique_name }}_fn
+{% endfor %}
+
+#import time
+#time.sleep(10000)
+
+# @dsl.pipeline(name="Compilation of pipelines",)
+def root(
+    context='', metadata_url='',
+    AWS_ACCESS_KEY_ID: str = "minio",
+    AWS_SECRET_ACCESS_KEY: str = "minio123",
+    MLFLOW_S3_ENDPOINT_URL: str = "http://combinator-minio.mlflow.svc.cluster.local:9000",
+    MLFLOW_TRACKING_URI: str = "http://combinator-mlflow.mlflow.svc.cluster.local:5000",
+):
+
+{% for step in list_of_steps %}
+    # TODO: put input and output paths back in for pachyderm...
+    {{ step.unique_name }} = {{ step.unique_name }}_fn("", "")
+#{% if step.previous_step_name %}
+#        input_context={{ step.previous_step_name }}.outputs["output_context"],
+#{% else %}
+#        input_context="",
+#{% endif %}
+#        run_info=run_info.outputs["run_info"],
+#        metadata_url=metadata_url
+#    )
+{% endfor %}
+
+{% endautoescape %}

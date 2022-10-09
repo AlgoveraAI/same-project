@@ -2,6 +2,7 @@ from sameproject.data.config import SameConfig
 from sameproject.data.step import Step
 from pathlib import Path
 from typing import Tuple
+import sameproject.ops.pachyderm as pachyderm
 import sameproject.ops.functions as functions
 import sameproject.ops.kubeflow as kubeflow
 import sameproject.ops.aml as aml
@@ -16,7 +17,8 @@ def render(target: str, steps: list, config: SameConfig, compile_path: str = Non
         "aml": aml.render,
         "kubeflow": kubeflow.render,
         "functions": functions.render,
-        "ocean": ocean.render
+        "ocean": ocean.render,
+        "pachyderm": pachyderm.render,
     }
 
     render_function = target_renderers.get(target, None)
@@ -35,7 +37,8 @@ def deploy(target: str, base_path: Path, root_file: str, config: SameConfig):
         "aml": aml.deploy,
         "kubeflow": kubeflow.deploy,
         "functions": functions.deploy,
-        "ocean": ocean.deploy
+        "ocean": ocean.deploy,
+        "pachyderm": pachyderm.deploy,
     }
 
     deploy_function = target_deployers.get(target, None)

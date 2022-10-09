@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "sameproject"
-version = "0.2.4"
+version = "0.2.5"
 description = "Notebooks to Pipelines, reproducible data science, oh my."
 authors = ["David Aronchick <aronchick@gmail.com>", "Luke Marsden <me@lukemarsden.net>"]
 
@@ -8,7 +8,7 @@ authors = ["David Aronchick <aronchick@gmail.com>", "Luke Marsden <me@lukemarsde
 same = 'sameproject.main:main'
 
 [tool.poetry.dependencies]
-python = "~3.8"
+python = "^3.8"
 click = ">=8.1"
 jupytext = "^1.11.5"
 jupyter = "^1.0.0"
@@ -32,6 +32,7 @@ docker = "^5.0.3"
 docopt = "^0.6.2"
 yarg = "^0.1.9"
 pipreqs = "^0.4.11"
+python-pachyderm = "^7.3.1"
 
 # AzureML
 azureml-core = {version = "^1.42.0", optional = true }

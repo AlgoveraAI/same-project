@@ -26,7 +26,7 @@ import click
     "-t",
     "--target",
     default="kubeflow",
-    type=click.Choice(["aml", "kubeflow", "functions", "ocean"]),
+    type=click.Choice(["aml", "kubeflow", "functions", "pachyderm", "ocean"]),
 )
 @click.option(
     "--persist-temp-files",
@@ -60,8 +60,13 @@ def run(
         return
 
     # TODO: Make SAME config object immutable (frozen_box=True).
-    config = SameConfig.from_yaml(same_file.read(), frozen_box=False)
-    config = config.resolve(Path(same_file.name).parent)
+    same_file_content = same_file.read()
+    filepath = Path(same_file.name)
+    if filepath.suffix == ".ipynb":
+        config = SameConfig.from_ipynb(same_file_content, filepath, frozen_box=False)
+    else:
+        config = SameConfig.from_yaml(same_file_content, frozen_box=False)
+    config = config.resolve(filepath.parent)
     config = config.inject_runtime_options()
 
     click.echo(f"Loading SAME config: {same_file.name}")
@@ -70,8 +75,8 @@ def run(
         click.echo(f"Temporary files persisted here: {base_path}")
 
     if not no_deploy:
-        try:
-            backends.deploy(target, base_path, root_file, config)
-        except Exception as err:
-            click.echo(err, err=True)
-            exit(1)
+        # try:
+        backends.deploy(target, base_path, root_file, config)
+        # except Exception as err:
+        #     click.echo(err, err=True)
+        #     exit(1)

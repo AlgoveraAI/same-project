@@ -21,3 +21,4 @@ import sameproject.ops.aml.options
 import sameproject.ops.functions.options
 import sameproject.ops.kubeflow.options
 import sameproject.ops.ocean.options
+import sameproject.ops.pachyderm.options
